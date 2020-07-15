@@ -592,15 +592,6 @@ def _laplace_kernel_parameters(h3,h4):
     return a, delta, b, w0
 
 
-# def _laplace_kernel_a_delta_fourier_transform(u,a,delta,b,w0,t=1.):
-    
-    
-#     am, ap = a-delta, a+delta
-#     ub = u/b
-#     return .5*(1./(1-1j*ap*ub)+1./(1+1j*am*ub))*np.exp(-.5*(t*ub)**2+1j*w0*u)
-
-#positive_kurtosis_model_a_delta_fourier_transform(u, a, delta, b, w0, t)*np.exp(1j*mean/sigma*u)
-
 def laplace_kernel_pdf(x,err,mean,sigma,h3,h4):
     '''
     

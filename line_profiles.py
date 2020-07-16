@@ -859,11 +859,11 @@ def ppxf_losvd_rfft_new_family(pars, nspec, moments, nl, ncomp, vsyst, factor,
 
             if mom > 2:
                 if pars[3 + p]>0.:
-                    losvd_rfft[:, j, k] = laplace_kernel_pdf_fourier_transform(
+                    losvd_rfft[:, j, k] = laplace_kernel_fourier_transform(
                                             w, sigma_diff, vel, sig, 
                                             pars[2+p], pars[3+p])
                 else:
-                    losvd_rfft[:, j, k] = uniform_kernel_pdf_fourier_transform(
+                    losvd_rfft[:, j, k] = uniform_kernel_fourier_transform(
                                             w, sigma_diff, vel, sig, 
                                             pars[2+p], pars[3+p])
         p += mom

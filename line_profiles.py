@@ -159,7 +159,7 @@ def gauss_hermite_series_broadened(v, err, params):
         a Gauss Hermite series for params = gamma,V,sigma,h3,h4
         where gamma is the normalization
         
-        see Sanders & Evans (2020) equation (19) for more information
+        see Sanders & Evans (2020) Appendix C for more information
         
         Parameters
         ----------
@@ -184,13 +184,13 @@ def gauss_hermite_series_broadened(v, err, params):
     '''
     
     gamma,V,sigma,h3,h4 = params
-    y = (v-V)/sigma
     yerr = err/sigma
-    sigmap = np.sqrt(1.+yerr**2)
-    
-    f = gamma/sigma*Norm(y,sigmap)*(1+h3*(H[3](y)+np.sqrt(1.5)*yerr**4*H[1](y))/sigmap**6
-            +h4*(H[4](y)+np.sqrt(3.)*yerr**4*H[2](y)+np.sqrt(3./8.)*yerr**8*H[0](y))/sigmap**8)
-    
+    sigmap = np.sqrt(sigma**2+err**2)
+    yp = (v-V)/sigmap
+
+    f = gamma/sigmap*alpha(yp)*(1+h3*(H[3](yp)+np.sqrt(1.5)*yerr**2*H[1](yp))/(sigmap/sigma)**3
+            +h4*(H[4](yp)+np.sqrt(3.)*yerr**2*H[2](yp)+np.sqrt(3./8.)*yerr**4*H[0](yp))/(sigmap/sigma)**4)
+ 
     return f
 
 def cumulative_gauss_hermite_series(v, params):
@@ -331,7 +331,7 @@ def uniform_kernel_pdf(x,err,mean,sigma,h3,h4):
             a_+ Phi((bw'+a_-)/t) - a_- Phi((bw'-a_+)/t)
             -2 Delta Phi(bw'/t))
             
-        see equation (45) of Sanders & Evans (2020)
+        see equation (38) of Sanders & Evans (2020)
             
         Phi(x) is the cumulative of the unit normal.
         
@@ -458,7 +458,7 @@ def uniform_kernel_fourier_transform(u,err,mean,sigma,h3,h4):
     
         Fourier transform of the probability density function
         for the uniform kernel model from Sanders & 
-        Evans (2020). See equation (56) of Sanders & Evans
+        Evans (2020). See equation (49) of Sanders & Evans
         (2020) for more information.
         
         Parameters
@@ -605,7 +605,7 @@ def laplace_kernel_pdf(x,err,mean,sigma,h3,h4):
         f_s(w) = b/(4a_+)exp((t^2-2a_+bw')/(2a_+^2))erfc((t^2-a_+bw')/(\sqrt{2}ta_+))
                  +b/(4a_-)exp((t^2+2a_-bw')/(2a_-^2))erfc((t^2+a_-bw')/(\sqrt{2}ta_-))
             
-        see equation (48) of Sanders & Evans (2020)
+        see equation (41) of Sanders & Evans (2020)
 
         
         The parameters of the model (a, delta, b, w_0) are 
@@ -755,7 +755,7 @@ def laplace_kernel_fourier_transform(u,err,mean,sigma,h3, h4):
     
         Fourier transform of the probability density function
         for the Laplace kernel model from Sanders & 
-        Evans (2020). See equation (55) of Sanders & Evans
+        Evans (2020). See equation (48) of Sanders & Evans
         (2020) for more information.
         
         Parameters

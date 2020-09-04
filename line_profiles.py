@@ -573,16 +573,19 @@ def _laplace_kernel_parameters(h3,h4):
         warnings.warn("h4>0.129893 passed to _laplace_kernel_parameters "
                       "-- limiting value of h4 is 0.129893, will return nan")
         
-    acoeff = 2.9
-    delta_h3 = 0.39
+    delta_h4 = 1.6
+    delta_h3 = 0.32
     scl=2.25
     scl_a=1.5
+    scl_a3=1.
     k0=1./np.sqrt(2.)
     kinf = 1.08
     
-    bcoeff = (np.abs((h4+1e-10)/(h3+1e-10))/h40*delta_h3)**2
-    delta = np.sign(h3)*np.sqrt((-bcoeff+np.sqrt(bcoeff**2+4*acoeff))/(2*acoeff))
-    a = scl_a/np.sqrt(np.sqrt(1.-acoeff*delta**4)*h40/np.abs(h4+1e-10)-1)
+    acoeff = delta_h4*h40/(np.abs(h4+1e-10))
+    bcoeff = -delta_h3/np.abs(h3+1e-10)*(scl_a/scl_a3)**2
+    ccoeff = (h40/np.abs(h4+1e-10)-1+(scl_a/scl_a3)**2)
+    delta = np.sign(h3)*(-bcoeff-np.sqrt(bcoeff**2-4*acoeff*ccoeff))/(2*acoeff)
+    a = scl_a/np.sqrt(h40*(1+delta_h4*delta**2)/np.abs(h4+1e-10)-1)
     
     kinf = kinf*np.sqrt(1+3*delta**2)
     b = np.sqrt(1.+a**2/(k0-(k0-kinf)*np.tanh(a/scl))**2)

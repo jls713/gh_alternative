@@ -313,7 +313,7 @@ def _uniform_kernel_parameters(h3,h4):
     kinf = kinf*np.sqrt(1+delta**2+3*delta**4)
     delta*=a
     b = np.sqrt(1.+a**2/(k0-(k0-kinf)*np.tanh(a/scl))**2)
-    w0 = -((delta/2.)-(delta/3.)*np.tanh(a/scl))/b
+    w0 = (-(delta/2.)+(delta/3.)*np.tanh(a/scl))/b
     
     return a, delta, b, w0
 
@@ -587,7 +587,7 @@ def _laplace_kernel_parameters(h3,h4):
     kinf = kinf*np.sqrt(1+3*delta**2)
     b = np.sqrt(1.+a**2/(k0-(k0-kinf)*np.tanh(a/scl))**2)
     delta*=a
-    w0 = -((-delta)+(8.*delta/7.)*np.tanh(5.*a/scl/4.))/b
+    w0 = (-delta+(8.*delta/7.)*np.tanh(5.*a/scl/4.))/b
     
     return a, delta, b, w0
 

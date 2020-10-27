@@ -295,16 +295,16 @@ def _uniform_kernel_parameters(h3,h4):
         warnings.warn("h4<0 passed to _uniform_kernel_parameters "
                       "-- implicitly converting to -|h4|")
         
-    h40 = -0.199341
+    h40 = -0.187777
     if np.any(h4<h40):
-        warnings.warn("h4<-0.199341 passed to _uniform_kernel_parameters "
-                      "-- limiting value of h4 is -0.199341, will return nan")
+        warnings.warn("h4<-0.187777 passed to _uniform_kernel_parameters "
+                      "-- limiting value of h4 is -0.187777, will return nan")
         
-    delta_h3 = 0.85
+    delta_h3 = 0.82
     delta_h4 = 4.3
     kinf = 1.3999852768764105
     k0=np.sqrt(3.)
-    scl_a=2.1
+    scl_a=2.
     scl=3.3
     
     h4_3 = np.abs(h4/(h3+1e-20))/(-h40)
@@ -339,7 +339,9 @@ def uniform_kernel_pdf(x,err,mean,sigma,h3,h4):
         chosen such that h_1~h_2~0 and reproduce the required
         h_3, h_4. See Table 1 of Sanders & Evans (2020). The
         transformations are computed by 
-        _uniform_kernel_parameters.
+        _uniform_kernel_parameters. These models are only valid
+        if h4<0. If h4>0 is passed, the code will use -h4 and give
+        a warning.
         
         w' = w-w_0
         t = 1 + b^2 s^2
@@ -568,18 +570,18 @@ def _laplace_kernel_parameters(h3,h4):
         warnings.warn("h4>0 passed to _laplace_kernel_parameters "
                       "-- implicitly converting to -|h4|")
         
-    h40 = 0.129893
+    h40 = 0.145461
     if np.any(h4>h40):
-        warnings.warn("h4>0.129893 passed to _laplace_kernel_parameters "
-                      "-- limiting value of h4 is 0.129893, will return nan")
+        warnings.warn("h4>0.145461 passed to _laplace_kernel_parameters "
+                      "-- limiting value of h4 is 0.145461, will return nan")
         
-    delta_h4 = 1.6
-    delta_h3 = 0.32
+    delta_h4 = 2.
+    delta_h3 = 0.37
     scl=2.25
-    scl_a=1.5
-    scl_a3=1.
+    scl_a=1.6
+    scl_a3=1.1
     k0=1./np.sqrt(2.)
-    kinf = 1.08
+    kinf = 1.0806510105505178
     
     acoeff = delta_h4*h40/(np.abs(h4+1e-10))
     bcoeff = -delta_h3/np.abs(h3+1e-10)*(scl_a/scl_a3)**2
@@ -615,7 +617,9 @@ def laplace_kernel_pdf(x,err,mean,sigma,h3,h4):
         chosen such that h_1~h_2~0 and reproduce the required
         h_3, h_4. See Table 1 of Sanders & Evans (2020). The
         transformations are computed by 
-        _uniform_kernel_parameters.
+        _laplace_kernel_parameters. These models are only valid
+        if h4>0. If h4<0 is passed, the code will use |h4| and give
+        a warning.
         
         w' = w-w_0
         t = 1 + b^2 s^2
